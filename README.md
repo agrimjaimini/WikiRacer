@@ -1,0 +1,15 @@
+# WikiRacer
+
+A project to find the shortest path between two Wikipedia pages using Flask and WebSockets.
+
+## Requirements
+
+- Python 3.x
+- Flask
+- Flask-SocketIO
+
+## Setup
+
+1. Clone the repository
+2. Install dependencies: `pip install -r requirements.txt`
+3. Run the app: `python app.py`
