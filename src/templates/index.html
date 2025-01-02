@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WikiRacer: Find the Shortest Path</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.min.js"></script>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -173,7 +173,7 @@
     </div>
 
     <script>
-        var socket = io.connect('https://' + document.domain + ':' + location.port);
+        var socket = io.connect("http://" + document.domain + ':' + location.port);
 
         socket.on('path_update', function(data) {
             var pathLinks = data.path.map(function(page, index) {
