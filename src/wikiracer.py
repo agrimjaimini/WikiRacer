@@ -42,7 +42,6 @@ def a_star_search(start_page, end_page, socketio):
     with concurrent.futures.ThreadPoolExecutor() as executor:
         while minqueue:
             _, cost, current_title, current_page, path, links = heapq.heappop(minqueue)
-            print(path)
 
             if current_title in settled:
                 continue
@@ -75,7 +74,6 @@ def a_star_search(start_page, end_page, socketio):
                 try:
                     next_page = future.result()
                     title = futures[future]
-                    print(title)
 
                     new_path = path + [title]
                     new_links = links + [next_page.canonicalurl]
