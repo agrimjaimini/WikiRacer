@@ -75,6 +75,8 @@ def a_star_search(start_page, end_page, socketio):
                     next_page = future.result()
                     title = futures[future]
 
+                    socketio.emit('new_link', {'title' : title})
+
                     new_path = path + [title]
                     new_links = links + [next_page.canonicalurl]
 
