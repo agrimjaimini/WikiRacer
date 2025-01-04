@@ -6,6 +6,7 @@ import db
 from flask_socketio import SocketIO, disconnect
 from wikiracer import a_star_search
 import json
+import uuid
 
 DB = db.DatabaseDriver() 
 app = Flask(__name__)
