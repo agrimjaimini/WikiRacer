@@ -6,13 +6,9 @@ import db
 from flask_socketio import SocketIO, disconnect
 from wikiracer import a_star_search
 import json
-import uuid
-import os
 
 DB = db.DatabaseDriver() 
 app = Flask(__name__)
-app.secret_key = os.getenv('SECRET_KEY')  
-
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
 
 def run_search(start_page, end_page):

@@ -215,6 +215,11 @@
         document.getElementById('current_link').display = 'none';
         document.getElementById('path').innerHTML = 
             'Search Complete! Final Path: ' + pathLinks.join(' → ') + ' found on ' + data.timestamp;
+
+        // Clear the path after 5 minutes (300,000 milliseconds)
+        setTimeout(function() {
+            document.getElementById('path').innerHTML = '';
+        }, 300000);
     });
 
     socket.on('search_exists', function(data) {
@@ -231,6 +236,11 @@
         });
         document.getElementById('path').innerHTML = 
             'This search has already been discovered! Path: ' + pathLinks.join(' → ') + ' found on ' + data.timestamp;
+
+        // Clear the path after 5 minutes (300,000 milliseconds)
+        setTimeout(function() {
+            document.getElementById('path').innerHTML = '';
+        }, 300000);
     });
 
     socket.on('size_warning', function(data) {
