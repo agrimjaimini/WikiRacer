@@ -58,6 +58,7 @@ def a_star_search(start_page, end_page, socketio):
                 })
                 DB.create_path(start.title, end.title, path, links, datetime.datetime.now().strftime("%Y-%m-%d %I:%M:%S %p"))
                 heuristic_cache.clear()
+                executor.shutdown(cancel_futures=True)
                 return path
 
             current_links = current_page.links
@@ -84,9 +85,6 @@ def a_star_search(start_page, end_page, socketio):
                     estimate = cost + 1 - heuristic_calc
 
                     heapq.heappush(minqueue, (estimate, cost + 1, title, next_page, new_path, new_links))
-
-                    if heuristic_calc > 75:
-                        break
 
                 except Exception as e:
                     print(f"Error fetching {futures[future]}: {e}")

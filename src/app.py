@@ -6,7 +6,7 @@ import json
 
 DB = db.DatabaseDriver() 
 app = Flask(__name__)
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
 
 def run_search(start_page, end_page):
     # This function should call a_star_search and handle its result, emitting a socket event
