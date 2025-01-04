@@ -201,6 +201,7 @@
 
     socket.on('search_complete', function(data) {
         document.getElementById('spinner').style.display = 'none';
+        document.getElementById('startButton').disabled = false; // Re-enable the button
 
         var alerts = document.getElementsByClassName('alert');
         for (var i = 0; i < alerts.length; i++) {
@@ -216,6 +217,7 @@
 
     socket.on('search_exists', function(data) {
         document.getElementById('spinner').style.display = 'none';
+        document.getElementById('startButton').disabled = false; // Re-enable the button
 
         var alerts = document.getElementsByClassName('alert');
         for (var i = 0; i < alerts.length; i++) {
@@ -229,16 +231,17 @@
             'This search has already been discovered! Path: ' + pathLinks.join(' → ') + ' found on ' + data.timestamp;
     });
 
-    socket.on('size_warning', function(data){
+    socket.on('size_warning', function(data) {
         document.getElementById('error').style.display = 'block';
         document.getElementById('error').innerHTML = 
             'Oh no! Your optimal path includes a page with >' + data.size + ' links. This may take a few minutes!';
+        document.getElementById('startButton').disabled = false; // Re-enable the button
     });
 
-    socket.on('new_link', function(data){
+    socket.on('new_link', function(data) {
         document.getElementById('current_link').innerHTML = 
-            'Currently traversing: ' + data.title
-        document.getElementById('current_link').style.display = 'block'
+            'Currently traversing: ' + data.title;
+        document.getElementById('current_link').style.display = 'block';
     });
 
     document.getElementById('startButton').addEventListener('click', function() {
@@ -249,6 +252,10 @@
             document.getElementById('path').innerHTML = '';
             document.getElementById('error').style.display = 'none';
             document.getElementById('spinner').style.display = 'block';
+
+            // Disable the Start Search button
+            document.getElementById('startButton').disabled = true;
+
             socket.emit('start_search', { start: startPage, end: endPage });
         } else {
             document.getElementById('error').style.display = 'block';
@@ -257,6 +264,7 @@
         }
     });
 </script>
+
 
 </body>
 </html>
