@@ -1,6 +1,3 @@
-import eventlet
-eventlet.monkey_patch()
-
 from flask import Flask, render_template
 import db
 from flask_socketio import SocketIO
@@ -12,14 +9,13 @@ app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
 
 def run_search(start_page, end_page):
-    with app.app_context():  
-        path, links, timestamp = a_star_search(start_page, end_page, socketio)
-        socketio.emit('search_result', {
-            'path': json.dumps(path),
-            'links': links,
-            'timestamp': timestamp
-        })
-
+    # This function should call a_star_search and handle its result, emitting a socket event
+    path, links, timestamp = a_star_search(start_page, end_page, socketio)  # Assuming this returns these values
+    socketio.emit('search_result', {
+        'path': json.dumps(path),
+        'links': links,
+        'timestamp': timestamp
+    })
 
 @app.route('/')
 def index():
