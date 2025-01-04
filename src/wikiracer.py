@@ -50,7 +50,7 @@ def a_star_search(start_page, end_page, socketio):
 
             socketio.emit('path_update', {'path': path, 'links': links})
 
-            if current_page.fullurl == end.title:
+            if current_page.title == end.title:
                 socketio.emit('search_complete', {
                     'path': path,
                     'links': links,
