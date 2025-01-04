@@ -1,9 +1,9 @@
 import eventlet
 eventlet.monkey_patch()
 
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 import db
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, disconnet
 from wikiracer import a_star_search
 import json
 
@@ -22,6 +22,7 @@ def run_search(start_page, end_page):
 
 @app.route('/')
 def index():
+    session['user_id'] = str(uuid.uuid4())
     return render_template('index.html') 
 
 @socketio.on('start_search')
@@ -42,5 +43,9 @@ def handle_search(data):
             'timestamp': result['timestamp']
         })
 
+@socketio.on('disconnect')
+def handle_disconnect():
+    session.clear()
+    
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=8080)
