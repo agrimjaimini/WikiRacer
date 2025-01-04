@@ -211,6 +211,8 @@
         var pathLinks = data.path.map(function(page, index) {
             return '<a href="' + data.links[index] + '" target="_blank" style="color: #2aa9e0;">' + page + '</a>';
         });
+
+        document.getElementById('current_link').display = 'none';
         document.getElementById('path').innerHTML = 
             'Search Complete! Final Path: ' + pathLinks.join(' → ') + ' found on ' + data.timestamp;
     });
