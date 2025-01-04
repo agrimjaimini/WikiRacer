@@ -3,7 +3,7 @@ eventlet.monkey_patch()
 
 from flask import Flask, render_template, session
 import db
-from flask_socketio import SocketIO, disconnet
+from flask_socketio import SocketIO, disconnect
 from wikiracer import a_star_search
 import json
 
@@ -46,6 +46,6 @@ def handle_search(data):
 @socketio.on('disconnect')
 def handle_disconnect():
     session.clear()
-    
+
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=8080)
