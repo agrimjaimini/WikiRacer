@@ -22,7 +22,6 @@ def run_search(start_page, end_page):
 
 @app.route('/')
 def index():
-    session['user_id'] = str(uuid.uuid4())
     return render_template('index.html') 
 
 @socketio.on('start_search')
