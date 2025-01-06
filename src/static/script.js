@@ -63,6 +63,17 @@ socket.on('size_warning', function(data) {
     document.getElementById('startButton').disabled = false;
 });
 
+
+socket.on('link_check_response', function (data) {
+    if (data.exists) {
+        inputField.style.outline = '2px solid blue';
+        document.getElementById('startButton').disabled = false;
+    } else {
+        inputField.style.outline = '2px solid red';
+        document.getElementById('startButton').disabled = true;
+    }
+});
+
 document.getElementById('startButton').addEventListener('click', function() {
     const startPage = document.getElementById('startPage').value;
     const endPage = document.getElementById('endPage').value;
@@ -87,14 +98,5 @@ for (let i = 0; i < forms.length; i++) {
         const inputField = this;
         socket.emit('link_check', { title: inputField.value });
 
-        socket.on('link_check_response', function (data) {
-            if (data.exists) {
-                inputField.style.outline = '2px solid blue';
-                document.getElementById('startButton').disabled = false;
-            } else {
-                inputField.style.outline = '2px solid red';
-                document.getElementById('startButton').disabled = true;
-            }
-        });
     });
 }
