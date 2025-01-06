@@ -58,6 +58,15 @@ input {
     transition: border-color 0.3s ease;
 }
 
+.valid{
+    outline : 3px solid #4CAF50;
+    box-shadow : 0 0 5px #4CAF50;
+}
+.invalid{
+    outline : 3px solid #FF5722;
+    box-shadow : 0 0 5px #FF5722;
+}
+
 
 button {
     padding: 14px 25px;
@@ -75,6 +84,17 @@ button {
 button:hover {
     background-color: #1f92c3;
     transform: scale(1.05);
+}
+
+button:disabled {
+    background-color: #B0BEC5; 
+    color: #ECEFF1;           
+    cursor: not-allowed;      
+    border: none;
+}
+
+button:disabled:hover {
+    transform: none
 }
 
 #path {

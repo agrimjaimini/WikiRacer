@@ -1,4 +1,4 @@
-var socket = io.connect("https://" + window.location.hostname + ':' + location.port);
+var socket = io.connect("http://" + window.location.hostname + ':' + location.port);
 
 socket.on('path_update', function(data) {
     var pathLinks = data.path.map(function(page, index) {
@@ -10,7 +10,7 @@ socket.on('path_update', function(data) {
 socket.on('new_link', function(data) {
     const currentLink = document.getElementById('current_link');
     currentLink.style.display = 'block';
-    currentLink.innerHTML = 'Currently traversing: ' + data.link;
+    currentLink.innerHTML = `Currently traversing: <a href="${data.link}" target="_blank" style="color: #2aa9e0;">${data.title}</a>`;
 });
 
 socket.on('search_complete', function(data) {
@@ -21,7 +21,8 @@ socket.on('search_complete', function(data) {
     for (var i = 0; i < alerts.length; i++) {
         alerts[i].style.display = 'none';
     }
-
+    
+    console.log(data)
     var pathLinks = data.path.map(function(page, index) {
         return '<a href="' + data.links[index] + '" target="_blank" style="color: #2aa9e0;">' + page + '</a>';
     });
@@ -63,17 +64,27 @@ socket.on('size_warning', function(data) {
     document.getElementById('startButton').disabled = false;
 });
 
-
 socket.on('link_check_response', function(data) {
     const inputField = document.getElementById(data.id);
-    if (inputField) {
-        if (data.exists) {
-            inputField.style.outline = '2px solid blue'; // Page exists
-        } else {
-            inputField.style.outline = '2px solid red'; // Page does not exist
-        }
+    if (data.exists) {
+        inputField.classList.add('valid');
+        inputField.classList.remove('invalid');
+    }        
+    else {
+        inputField.classList.remove('valid');
+        inputField.classList.add('invalid');
     }
+
+    if(document.getElementById('startPage').classList.contains('valid') === true && document.getElementById('endPage').classList.contains('valid') === true){
+        document.getElementById('startButton').disabled = false;
+    }
+    else{
+        document.getElementById('startButton').disabled = true;
+    }
+
 });
+
+
 
 document.getElementById('startButton').addEventListener('click', function() {
     const startPage = document.getElementById('startPage').value;
@@ -93,8 +104,14 @@ document.getElementById('startButton').addEventListener('click', function() {
     }
 });
 
+
 [document.getElementById('startPage'),  document.getElementById('endPage')].forEach((input) => {
     input.addEventListener('input', function() {
-        socket.emit('link_check', { title: inputField.value, id: inputField.id });
+        if(this.value.trim() === ""){
+            input.classList.remove('invalid');
+            input.classList.remove('valid');
+        } else{
+            socket.emit('link_check', { title : input.value, id : input.id });
+        }
     });
 });
