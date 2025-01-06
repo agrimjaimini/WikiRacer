@@ -1,4 +1,4 @@
-var socket = io.connect("https://" + document.domain + ':' + location.port);
+var socket = io.connect("http://" + window.location.hostname + ':' + location.port);
 
 socket.on('path_update', function(data) {
     var pathLinks = data.path.map(function(page, index) {
