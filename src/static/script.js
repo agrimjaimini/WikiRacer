@@ -7,6 +7,11 @@ socket.on('path_update', function(data) {
     document.getElementById('path').innerHTML = 'This is a new path! Current Path: ' + pathLinks.join(' → ');
 });
 
+socket.on('new_link'), function(data) {
+    document.getElementById('current_link').style.display = 'block'
+    document.getElementById('current_link').innerHTML = 'Currently traversing: ' + data.link
+}
+
 socket.on('search_complete', function(data) {
     document.getElementById('spinner').style.display = 'none';
     document.getElementById('startButton').disabled = false; // Re-enable the button
