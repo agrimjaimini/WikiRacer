@@ -64,13 +64,14 @@ socket.on('size_warning', function(data) {
 });
 
 
-socket.on('link_check_response', function (data) {
-    if (data.exists) {
-        inputField.style.outline = '2px solid blue';
-        document.getElementById('startButton').disabled = false;
-    } else {
-        inputField.style.outline = '2px solid red';
-        document.getElementById('startButton').disabled = true;
+socket.on('link_check_response', function(data) {
+    const inputField = document.getElementById(data.id);
+    if (inputField) {
+        if (data.exists) {
+            inputField.style.outline = '2px solid blue'; // Page exists
+        } else {
+            inputField.style.outline = '2px solid red'; // Page does not exist
+        }
     }
 });
 
@@ -92,11 +93,8 @@ document.getElementById('startButton').addEventListener('click', function() {
     }
 });
 
-const forms = document.getElementsByClassName('form-group');
-for (let i = 0; i < forms.length; i++) {
-    forms[i].addEventListener('input', function () {
-        const inputField = this;
-        socket.emit('link_check', { title: inputField.value });
-
+[document.getElementById('startPage'),  document.getElementById('endPage')].forEach((input) => {
+    input.addEventListener('input', function() {
+        socket.emit('link_check', { title: inputField.value, id: inputField.id });
     });
-}
+});

@@ -43,9 +43,9 @@ def handle_search(data):
         })
 
 @socketio.on('link_check')
-def check_link(data):
+def link_validity(data):
     title = data['title']
-    socketio.emit('link_check_response',check_link(title))
+    socketio.emit('link_check_response', {'id' : data[id], 'exists' : check_link(title)})
 
 
 @socketio.on('disconnect')
