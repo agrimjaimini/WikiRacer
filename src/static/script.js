@@ -68,4 +68,33 @@ document.getElementById('startButton').addEventListener('click', function() {
     const endPage = document.getElementById('endPage').value;
 
     if (startPage.trim() !== '' && endPage.trim() !== '') {
-        document.
+        document.getElementById('path').innerHTML = '';
+        document.getElementById('error').style.display = 'none';
+        document.getElementById('spinner').style.display = 'block';
+        document.getElementById('startButton').disabled = true;
+
+        socket.emit('start_search', { start: startPage, end: endPage });
+    } else {
+        const errorElement = document.getElementById('error');
+        errorElement.style.display = 'block';
+        errorElement.innerHTML = 'Please enter both a start and an end page.';
+    }
+});
+
+const forms = document.getElementsByClassName('form-group');
+for (let i = 0; i < forms.length; i++) {
+    forms[i].addEventListener('input', function () {
+        const inputField = this;
+        socket.emit('link_check', { title: inputField.value });
+
+        socket.once('link_check_response', function (data) {
+            if (data.exists) {
+                inputField.style.outline = '2px solid blue';
+                document.getElementById('startButton').disabled = false;
+            } else {
+                inputField.style.outline = '2px solid red';
+                document.getElementById('startButton').disabled = true;
+            }
+        });
+    });
+}
