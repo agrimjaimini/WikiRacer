@@ -56,6 +56,10 @@ class DatabaseDriver(object):
         result = cursor.fetchone()
         if result:
             column_names = [description[0] for description in cursor.description]
-            return dict(zip(column_names, result))
+            result_dict = dict(zip(column_names, result))
+            result_dict['path'] = json.loads(result_dict['path'])  
+            result_dict['links'] = json.loads(result_dict['links'])  
+            return result_dict
+        
         return None
 
