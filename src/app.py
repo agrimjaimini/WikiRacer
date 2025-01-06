@@ -4,7 +4,7 @@ eventlet.monkey_patch()
 from flask import Flask, render_template, session
 import db
 from flask_socketio import SocketIO, disconnect
-from wikiracer import a_star_search
+from wikiracer import a_star_search, check_link
 import json
 
 DB = db.DatabaseDriver() 
@@ -41,6 +41,12 @@ def handle_search(data):
             'links': result['links'],
             'timestamp': result['timestamp']
         })
+
+@socketio.on('link_check')
+def check_link(data):
+    title = data['title']
+    return check_link(title)
+
 
 @socketio.on('disconnect')
 def handle_disconnect():

@@ -30,6 +30,9 @@ def heuristic(current_page, end_page):
 def fetch_page(title):
     return wiki_wiki.page(title)
 
+def check_link(title):
+    return wiki_wiki.page(title).exists
+
 def a_star_search(start_page, end_page, socketio):
     minqueue = []
     settled = set()

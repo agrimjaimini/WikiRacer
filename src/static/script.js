@@ -78,3 +78,16 @@ document.getElementById('startButton').addEventListener('click', function() {
             'Please enter both a start and an end page.';
     }
 });
+
+var forms = document.getElementsByClassName('form-group');
+for (var i = 0; i < forms.length; i++) {
+    forms[i].addEventListener('input', function(){
+        var exists = socket.emit('link_check', {title : forms[i].value} )
+        if (exists){
+            forms[i].style.outline = '2px solid blue'
+        }
+        else{
+            forms[i].style.outline = '2px solid red'
+        }
+    });
+}
