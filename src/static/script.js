@@ -85,9 +85,12 @@ for (var i = 0; i < forms.length; i++) {
         var exists = socket.emit('link_check', {title : forms[i].value} )
         if (exists){
             forms[i].style.outline = '2px solid blue'
+            document.getElementById('starButton').disabled = false
+
         }
         else{
             forms[i].style.outline = '2px solid red'
+            document.getElementById('starButton').disabled = true
         }
     });
 }
