@@ -87,7 +87,7 @@ for (let i = 0; i < forms.length; i++) {
         const inputField = this;
         socket.emit('link_check', { title: inputField.value });
 
-        socket.once('link_check_response', function (data) {
+        socket.on('link_check_response', function (data) {
             if (data.exists) {
                 inputField.style.outline = '2px solid blue';
                 document.getElementById('startButton').disabled = false;
