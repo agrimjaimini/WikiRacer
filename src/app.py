@@ -45,7 +45,7 @@ def handle_search(data):
 @socketio.on('link_check')
 def check_link(data):
     title = data['title']
-    return check_link(title)
+    socketio.emit('link_check_response',check_link(title))
 
 
 @socketio.on('disconnect')

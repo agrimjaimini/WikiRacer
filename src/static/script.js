@@ -80,17 +80,20 @@ document.getElementById('startButton').addEventListener('click', function() {
 });
 
 var forms = document.getElementsByClassName('form-group');
-for (var i = 0; i < forms.length; i++) {
-    forms[i].addEventListener('input', function(){
-        var exists = socket.emit('link_check', {title : forms[i].value} )
-        if (exists){
-            forms[i].style.outline = '2px solid blue'
-            document.getElementById('starButton').disabled = false
 
-        }
-        else{
-            forms[i].style.outline = '2px solid red'
-            document.getElementById('starButton').disabled = true
-        }
+for (let i = 0; i < forms.length; i++) {
+    forms[i].addEventListener('input', function () {
+        const inputField = this; 
+        socket.emit('link_check', { title: inputField.value });
+
+        socket.on('link_check_response', function (data) {
+            if (data.exists) {
+                inputField.style.outline = '2px solid blue';
+                document.getElementById('startButton').disabled = false;
+            } else {
+                inputField.style.outline = '2px solid red';
+                document.getElementById('startButton').disabled = true;
+            }
+        });
     });
 }
