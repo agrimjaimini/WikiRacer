@@ -40,23 +40,19 @@ def a_star_search(start_page, end_page, socketio, sid):
     start = wiki_wiki.page(start_page)
     end = wiki_wiki.page(end_page)
 
-    # Push the starting page into the priority queue
     heapq.heappush(minqueue, (0, 0, start.title, start, [start.title], [start.fullurl]))
 
     with concurrent.futures.ThreadPoolExecutor() as executor:
         while minqueue:
             _, cost, current_title, current_page, path, links = heapq.heappop(minqueue)
 
-            # Skip already processed pages
             if current_title in settled:
                 continue
 
             settled.add(current_title)
 
-            # Emit path update to the specific session
             socketio.emit('path_update', {'path': path, 'links': links}, to=sid)
 
-            # Check if the target page is reached
             if current_page.title == end.title:
                 socketio.emit('search_complete', {
                     'path': path,
@@ -70,29 +66,23 @@ def a_star_search(start_page, end_page, socketio, sid):
             current_links = current_page.links
             futures = {}
 
-            # Warn the client if the current page has too many links
             if len(current_links) > 1000:
                 socketio.emit('size_warning', {'size': len(current_links)}, to=sid)
 
-            # Fetch links in parallel
             for title in current_links.keys():
                 if title not in settled:
                     futures[executor.submit(fetch_page, title)] = title
 
-            # Process completed fetch tasks
             for future in concurrent.futures.as_completed(futures):
                 try:
                     next_page = future.result()
                     title = futures[future]
 
-                    # Emit new link information to the specific session
                     socketio.emit('new_link', {'title': title, 'link' : next_page.fullurl}, to=sid)
 
-                    # Prepare the new path and links
                     new_path = path + [title]
                     new_links = links + [next_page.fullurl]
 
-                    # Calculate heuristic and push into the priority queue
                     heuristic_calc = heuristic(next_page, end)
                     estimate = cost + 1 - heuristic_calc
 
