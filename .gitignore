@@ -3,3 +3,4 @@ venv/
 docker-composer
 Dockerfile
 .dockerignore
+.gitignore
