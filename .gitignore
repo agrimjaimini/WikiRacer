@@ -3,4 +3,3 @@ venv/
 docker-composer
 Dockerfile
 .dockerignore
-wikiracer.db
