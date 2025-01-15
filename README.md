@@ -4,12 +4,6 @@ A project to find the shortest path between two Wikipedia pages using Flask and 
 
 try it @ https://wikiracer-d9up.onrender.com
 
-## Requirements
-
-- Python 3.x
-- Flask
-- Flask-SocketIO
-
 ## Setup
 
 1. Clone the repository
