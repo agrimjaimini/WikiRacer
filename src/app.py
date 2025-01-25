@@ -9,7 +9,6 @@ import uuid
 
 DB = db.DatabaseDriver()
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
 
 @app.before_request
