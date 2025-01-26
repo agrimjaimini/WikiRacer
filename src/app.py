@@ -6,10 +6,14 @@ import db
 from flask_socketio import SocketIO, disconnect
 from wikiracer import a_star_search, check_link
 import uuid
+import os
 
 DB = db.DatabaseDriver()
 app = Flask(__name__)
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode="eventlet")
+app.secret_key = os.environ.get('SECRET_KEY', 'default_secret_key')
+
+
 
 @app.before_request
 def handle_session():
