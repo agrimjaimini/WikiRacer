@@ -1,6 +1,6 @@
 # WikiRacer
 
-A project to find the shortest path between two Wikipedia pages using Flask and WebSockets.
+A project to find the shortest path between two Wikipedia pages.
 
 try it @ https://wikiracer-d9up.onrender.com
 
